@@ -4,5 +4,10 @@ spring:
     username: erpdev
     password: password123
     driverClassName: org.h2.Driver
+
   jpa:
     spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+
+  security:
+    user:
+      password: TestAB
