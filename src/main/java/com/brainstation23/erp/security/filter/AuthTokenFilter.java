@@ -1,10 +1,9 @@
 package com.brainstation23.erp.security.filter;
 
+import com.brainstation23.erp.security.JwtUtils;
 import com.brainstation23.erp.security.service.UserDetailsServiceImpl;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,8 +24,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String BEARER_PREFIX = "Bearer ";
     private static final String EXCEPTION_MESSAGE_PREFIX = "Cannot set user authentication: {}";
-
-//    private final JwtUtils jwtUtils;
+    private final JwtUtils jwtUtils;
     private final UserDetailsServiceImpl userDetailsService;
 
     @Override
@@ -34,19 +32,19 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         try {
             String jwt = parseJwt(request);
-//            if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
-//                String username = jwtUtils.getUserNameFromJwtToken(jwt);
-//
-//                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-//                UsernamePasswordAuthenticationToken authentication =
-//                        new UsernamePasswordAuthenticationToken(
-//                                userDetails,
-//                                null,
-//                                userDetails.getAuthorities());
-//                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-//
-//                SecurityContextHolder.getContext().setAuthentication(authentication);
-//            }
+            if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
+                String username = jwtUtils.getUserNameFromJwtToken(jwt);
+
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(
+                                userDetails,
+                                null,
+                                userDetails.getAuthorities());
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
         } catch (Exception e) {
             logger.error(EXCEPTION_MESSAGE_PREFIX, e);
         }
