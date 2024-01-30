@@ -19,7 +19,7 @@ import static com.brainstation23.erp.constant.EntityConstant.*;
 @Accessors(chain = true)
 @NoArgsConstructor
 @RequiredArgsConstructor
-@Table(name = USER,
+@Table(name = USERS,
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = USER_COLUMN_USERNAME),
                 @UniqueConstraint(columnNames = USER_COLUMN_EMAIL)
@@ -47,7 +47,7 @@ public class UserEntity {
 
         @ManyToMany(fetch = FetchType.LAZY)
         @JoinTable(  name = USER_ROLE,
-                joinColumns = @JoinColumn(name = USER_ROLE_USER_ID),
+                joinColumns = @JoinColumn(name = USER_ID),
                 inverseJoinColumns = @JoinColumn(name = USER_ROLE_ROLE_ID))
         private Set<RoleEntity> roles = new HashSet<>();
 
@@ -56,14 +56,14 @@ public class UserEntity {
         /*      Modeling with FOREIGN Key
 
         ------users------                               -----address----
-        id INT                                          id INT
+        id INT                                          user_id INT
         username VARCHAR                                street VARCHAR
-        address_id INT                                  city VARCHAR
+                                                        city VARCHAR
 
          */
 
-        @OneToOne(cascade = CascadeType.ALL)
-        @JoinColumn(name = ADDRESS_ID, referencedColumnName = ID)
+        @OneToOne(mappedBy = USER, cascade = CascadeType.ALL)
+        @PrimaryKeyJoinColumn
         private AddressEntity address;
 
 }
