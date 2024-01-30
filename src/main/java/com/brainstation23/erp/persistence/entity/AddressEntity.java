@@ -22,6 +22,9 @@ public class AddressEntity {
     @Column(name = USER_ID)
     private Long id;
 
+    private String street;
+    private String city;
+
     @OneToOne
     @MapsId
     @JoinColumn(name = USER_ID)
