@@ -30,9 +30,11 @@ public class WebSecurityConfig {
 
     private final AuthEntryPointJwt unauthorizedHandler;
 
+    private final JwtUtils jwtUtils;
+
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
-        return new AuthTokenFilter(new JwtUtils(),this.userDetailsService);
+        return new AuthTokenFilter(this.jwtUtils,this.userDetailsService);
     }
 
     // Configuring HttpSecurity

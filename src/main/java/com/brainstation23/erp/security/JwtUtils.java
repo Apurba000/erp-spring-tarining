@@ -6,6 +6,7 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -19,8 +20,10 @@ public class JwtUtils {
     private static final String EXPIRED_TOKEN = "JWT token is expired: {}";
     private static final String UNSUPPORTED_TOKEN = "JWT token is unsupported: {}";
     private static final String EMPTY_TOKEN = "JWT claims string is empty: {}";
-    private static final String jwtSecret = "2D4A614E645267556B58703273357638792F423F4428472B4B6250655368566D";
-    private static final int jwtExpirationMs = 86400000;
+    @Value("${app.jwtSecret}")
+    private String jwtSecret;
+    @Value("${app.jwtExpirationMs}")
+    private  int jwtExpirationMs;
 
 
     public String generateJwtToken(Authentication authentication) {
