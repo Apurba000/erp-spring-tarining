@@ -1,5 +1,6 @@
 package com.brainstation23.erp.persistence.entity.security;
 
+import com.brainstation23.erp.persistence.entity.AddressEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -49,4 +50,20 @@ public class UserEntity {
                 joinColumns = @JoinColumn(name = USER_ROLE_USER_ID),
                 inverseJoinColumns = @JoinColumn(name = USER_ROLE_ROLE_ID))
         private Set<RoleEntity> roles = new HashSet<>();
+
+
+
+        /*      Modeling with FOREIGN Key
+
+        ------users------                               -----address----
+        id INT                                          id INT
+        username VARCHAR                                street VARCHAR
+        address_id INT                                  city VARCHAR
+
+         */
+
+        @OneToOne(cascade = CascadeType.ALL)
+        @JoinColumn(name = ADDRESS_ID, referencedColumnName = ID)
+        private AddressEntity address;
+
 }

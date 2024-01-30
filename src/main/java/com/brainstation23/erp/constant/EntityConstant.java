@@ -13,5 +13,11 @@ public final class EntityConstant {
 	public static final String USER_ROLE_USER_ID = "user_id";
 	public static final String USER_ROLE_ROLE_ID = "role_id";
 
+
+	public static final String ADDRESS = "address";
+	public static final String ADDRESS_ID = "address_id";
+	public static final String ID = "id";
+
+
 	private EntityConstant() {}
 }
